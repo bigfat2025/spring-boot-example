@@ -31,7 +31,7 @@ public class JwtUtil {
 
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
-        map.put("expireDate", expireDate.getTime());
+        map.put("expireAt", expireDate.getTime());
         return map;
     }
 
