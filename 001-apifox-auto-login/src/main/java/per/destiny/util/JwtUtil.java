@@ -11,22 +11,28 @@ import per.destiny.config.JwtConfig;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
     @Autowired
     private JwtConfig jwtConfig;
 
-    public String generateToken(String username) {
+    public Map<String, Object> generateToken(String username) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtConfig.getExpire() * 1000);
-
-        return Jwts.builder()
+        Date expireDate = new Date(now.getTime() + jwtConfig.getExpire() * 1000);
+        String token = Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(now)
-                .setExpiration(expiryDate)
+                .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecret())
                 .compact();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", token);
+        map.put("expireDate", expireDate.getTime());
+        return map;
     }
 
     public String getUsernameFromToken(String token) {
@@ -49,6 +55,7 @@ public class JwtUtil {
 
     /**
      * 该方法用于生成密钥
+     *
      * @param args
      */
     public static void main(String[] args) {
