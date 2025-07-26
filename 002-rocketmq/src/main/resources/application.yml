@@ -1,0 +1,23 @@
+rocketmq:
+  consumer:
+    # 消费者组名称，同一消费组的消费者共同消费消息
+    group: springboot_consumer_group
+    # 每次从Broker拉取消息的最大数量（注意是拉取消息的最大值而非消费最大值）
+    pull-batch-size: 10
+  # RocketMQ NameServer 地址，用于服务发现
+  name-server: 192.168.10.100:9876
+  producer:
+    # 生产者组名称，发送同一类消息的设置同一group（保证唯一）
+    group: springboot_producer_group
+    # 发送消息超时时间（毫秒）
+    sendMessageTimeout: 10000
+    # 同步发送消息失败时的重试次数
+    retryTimesWhenSendFailed: 2
+    # 异步发送消息失败时的重试次数
+    retryTimesWhenSendAsyncFailed: 2
+    # 消息最大长度（字节），默认4M（1024 * 1024 * 4）
+    maxMessageSize: 4096
+    # 消息压缩阈值（字节），当消息体超过此值时进行压缩
+    compressMessageBodyThreshold: 4096
+    # 是否在内部发送失败时重试另一个Broker（默认false）
+    retryNextServer: false
